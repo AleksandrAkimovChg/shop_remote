@@ -1,0 +1,14 @@
+server:
+  port: 8089
+
+app:
+  shops:
+    urls: http://localhost:8081,http://localhost:8082
+    path:
+      status: "/application/status"
+      good: "/shop/good"
+
+logging:
+  level:
+    root: INFO
+    com.javaacademy: DEBUG
