@@ -26,12 +26,12 @@ public class StatusService {
     private final JsonMapper jsonMapper;
 
     @Value("${app.shops.urls}")
-    private List<String> shopsUrl2;
+    private List<String> shopsUrl;
     @Value("${app.shops.path.status}")
-    private String path;
+    private String  path;
 
     public List<ShopStatusDtoExternal> getAllShopsStatus() {
-        return shopsUrl2.stream()
+        return shopsUrl.stream()
                 .map(e -> getShopStatus(e + path).orElse(null)).filter(Objects::nonNull)
                 .map(remoteMapper::convertToShopStatusDtoExternal).toList();
     }
@@ -43,7 +43,6 @@ public class StatusService {
         try (Response response = client.sendRequest(request)) {
             String responseBody = client.getResponseBody(response);
             dto = jsonMapper.convertToShopStatusDtoInternal(responseBody);
-            log.info("получен ответ от: {}, сформирован dto: {}", shopUrl, dto);
         } catch (IOException e) {
             log.info("Нет ответа от магазина: {}", shopUrl);
             log.warn(e.getMessage(), e);

@@ -24,13 +24,13 @@ public class GoodPriceService {
     private final JsonMapper jsonMapper;
 
     @Value("${app.shops.urls}")
-    private List<String> shopsUrl2;
+    private List<String> shopsUrl;
     @Value("${app.shops.path.good}")
     private String path;
 
     public void patchGoodInAllShops(GoodPriceDtoExternal dto) {
         GoodPriceDtoInternal convertedDto = remoteMapper.convertToGoodPriceDtoInternal(dto);
-        shopsUrl2.forEach(e -> patchGoodRequest(e + path, convertedDto));
+        shopsUrl.forEach(e -> patchGoodRequest(e + path, convertedDto));
     }
 
     private void patchGoodRequest(String shopUrl, GoodPriceDtoInternal dto) {

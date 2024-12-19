@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -48,9 +47,7 @@ public class RemoteController {
     })
     @GetMapping("/status")
     public ResponseEntity<?> getShopsStatus() {
-        log.info("получен запрос getShopStatus - LocalDateTime: {}", LocalDateTime.now());
         List<ShopStatusDtoExternal> response = remoteService.getAllShopsStatus();
-        log.info("сформирован ответ getShopsStatus: {}", response);
         if (response.isEmpty()) {
             return ResponseEntity.ok("Ошибка: Нет ответа от магазинов, которые подключены к сервису.");
         }
@@ -61,7 +58,6 @@ public class RemoteController {
     @Operation(summary = "Изменение стоимости товара", description = "Передаются атрибуты названия "
             + "товара и новой стоимости товара")
     public void patchGoodPrice(@RequestBody GoodPriceDtoExternal request) {
-        log.info("получен запрос patchGood - LocalDateTime: {}, request: {}", LocalDateTime.now(), request);
         changeGoodService.patchGoodInAllShops(request);
     }
 }
