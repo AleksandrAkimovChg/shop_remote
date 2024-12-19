@@ -40,12 +40,14 @@ public class StatusService {
         log.info("выполняю запрос getShopStatus - shopUrl: {}", shopUrl);
         ShopStatusDtoInternal dto = null;
         Request request = client.getGetRequest(shopUrl);
-        try (Response response = client.sendRequest(request);) {
+        try (Response response = client.sendRequest(request)) {
             String responseBody = client.getResponseBody(response);
             dto = jsonMapper.convertToShopStatusDtoInternal(responseBody);
             log.info("получен ответ от: {}, сформирован dto: {}", shopUrl, dto);
         } catch (IOException e) {
             log.info("Нет ответа от магазина: {}", shopUrl);
+            log.warn(e.getMessage(), e);
+        } catch (RuntimeException e) {
             log.error(e.getMessage(), e);
         }
         return Optional.ofNullable(dto);

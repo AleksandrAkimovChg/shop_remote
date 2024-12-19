@@ -18,20 +18,19 @@ public class OkClient {
     }
 
     public Request getPatchRequestWithJson(String shopUrl, String json) {
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse(
-                MediaType.APPLICATION_JSON_VALUE), json);
+        RequestBody body = RequestBody.create(json, okhttp3.MediaType.parse(
+                MediaType.APPLICATION_JSON_VALUE));
         return new Request.Builder().patch(body).url(shopUrl).build();
     }
 
     public Response sendRequest(Request request) throws IOException {
-        Response response = client.newCall(request).execute();
-        if (!response.isSuccessful() || response.body() == null) {
-            throw new RuntimeException("Response неуспешен или пустой");
-        }
-        return response;
+        return client.newCall(request).execute();
     }
 
     public String getResponseBody(Response response) throws IOException {
+        if (!response.isSuccessful() || response.body() == null) {
+            throw new RuntimeException("Response неуспешен или пустой");
+        }
         return response.body().string();
     }
 }
